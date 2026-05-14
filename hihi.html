@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🌸 Đức Anh iu Mimi 🌸</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Segoe UI', 'Quicksand', 'Poppins', cursive, sans-serif;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .part1 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, #ffe4e1 0%, #ffc0cb 50%, #ffb6c1 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .part1.hide {
+            display: none;
+        }
+
+        .password-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(12px);
+            padding: 50px 40px;
+            border-radius: 60px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: fadeInScale 0.5s ease;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #d6336c;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .password-input {
+            font-size: 1.8rem;
+            padding: 15px 25px;
+            width: 250px;
+            text-align: center;
+            border: 3px solid #ff6f91;
+            border-radius: 50px;
+            outline: none;
+            font-family: monospace;
+            letter-spacing: 5px;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s;
+        }
+
+        .password-input:focus {
+            border-color: #d6336c;
+            box-shadow: 0 0 15px rgba(214, 51, 108, 0.5);
+            transform: scale(1.02);
+        }
+
+        .hint {
+            font-size: 1rem;
+            color: #b83b5e;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px 20px;
+            border-radius: 40px;
+            display: inline-block;
+        }
+
+        .submit-btn {
+            font-size: 1.3rem;
+            padding: 12px 35px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            background: #ff5252;
+        }
+
+        .error-icon {
+            font-size: 4rem;
+            margin-top: 20px;
+            animation: shake 0.3s ease;
+            display: inline-block;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .error-message {
+            color: #d6336c;
+            font-weight: bold;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px 20px;
+            border-radius: 40px;
+            display: inline-block;
+        }
+
+        .part2-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, #ff69b4 0%, #ff1493 50%, #c71585 100%);
+            display: none;
+            z-index: 50;
+        }
+
+        .part2-bg.show {
+            display: block;
+        }
+
+        .part {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 101;
+            background: transparent;
+        }
+
+        .part.active {
+            display: flex;
+        }
+
+        .text-display {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #fff3ed;
+            text-shadow: 4px 4px 0 #d6336c;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(8px);
+            padding: 25px 45px;
+            border-radius: 70px;
+            text-align: center;
+            animation: textFade 3s ease forwards;
+        }
+
+        @keyframes textFade {
+            0% { opacity: 0; transform: scale(0.9); }
+            10% { opacity: 1; transform: scale(1); }
+            80% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.95); visibility: hidden; }
+        }
+
+        .image-frame {
+            background: white;
+            padding: 20px;
+            border-radius: 40px;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.4);
+            animation: imagePop 0.5s ease forwards;
+        }
+
+        @keyframes imagePop {
+            0% { opacity: 0; transform: scale(0.7); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .part-image {
+            max-width: 85vw;
+            max-height: 65vh;
+            border-radius: 25px;
+            object-fit: contain;
+        }
+
+        .tongue-icon {
+            font-size: 10rem;
+            animation: tonguePop 0.6s ease forwards;
+            cursor: pointer;
+        }
+
+        @keyframes tonguePop {
+            0% { opacity: 0; transform: scale(0) rotate(-180deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0); }
+        }
+
+        .gallery {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .gallery-img {
+            position: absolute;
+            max-width: 70vw;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 30px;
+            border: 8px solid white;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+
+        .gallery-img.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .gallery-img.hide {
+            opacity: 0;
+            transform: scale(0.5);
+        }
+
+        .big-heart {
+            font-size: 12rem;
+            animation: heartPulse 0.8s ease-in-out forwards;
+        }
+
+        @keyframes heartPulse {
+            0% { transform: scale(0); opacity: 0; }
+            40% { transform: scale(1.3); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .letter-container {
+            perspective: 1500px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .envelope {
+            position: relative;
+            width: 550px;
+            height: 400px;
+            background: #f5e6d3;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .envelope-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f8eedb, #f0e0c8);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 10;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        .envelope.open .envelope-front {
+            transform: rotateX(180deg);
+            opacity: 0;
+        }
+
+        .letter-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fffef7;
+            border-radius: 18px;
+            padding: 35px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.5s ease 0.3s;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .envelope.open .letter-content {
+            opacity: 1;
+            transform: scale(1);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .letter-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .letter-signature {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #d6336c;
+            text-align: right;
+            margin-top: 15px;
+        }
+
+        .envelope:not(.open):hover {
+            transform: translateY(-5px);
+            box-shadow: 0 40px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .falling-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+            font-size: 1.5rem;
+            animation: fallDown 6s linear forwards;
+        }
+
+        .falling-flower {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+            font-size: 1.5rem;
+            animation: fallFlower 8s linear forwards;
+        }
+
+        @keyframes fallDown {
+            0% { transform: translateY(-20vh) rotate(0deg); opacity: 0.9; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes fallFlower {
+            0% { transform: translateY(-20vh) rotate(0deg); opacity: 0.9; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .text-display { font-size: 1.6rem; padding: 15px 25px; }
+            .envelope { width: 350px; height: 280px; }
+            .letter-text { font-size: 0.85rem; line-height: 1.5; }
+            .letter-content { padding: 20px; }
+            .big-heart { font-size: 8rem; }
+            .tongue-icon { font-size: 6rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- PHẦN 1: NHẬP MẬT KHẨU -->
+    <div class="part1" id="part1">
+        <div class="password-container">
+            <div class="title">🌸 Bé hãy nhập mật khẩu để vào 🌸</div>
+            <div class="input-group">
+                <input type="password" class="password-input" id="passwordInput" maxlength="4" placeholder="****">
+                <div class="hint">💡 Gợi ý: ngày đặc biệt</div>
+                <button class="submit-btn" id="submitBtn">🔓 Mở cửa</button>
+                <div id="errorArea"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="part2-bg" id="part2Bg"></div>
+
+    <!-- CÁC PHẦN TIẾP THEO -->
+    <div class="part" id="part3">
+        <div class="text-display">Đức Anhhh iu Mimi</div>
+    </div>
+
+    <div class="part" id="part4">
+        <div class="text-display">Ngày đầu nhắn tin</div>
+    </div>
+
+    <div class="part" id="part4Image">
+        <div class="image-frame">
+            <img class="part-image" id="image1" src="" alt="Kỷ niệm 1">
+        </div>
+    </div>
+
+    <div class="part" id="part5">
+        <div class="text-display">chuỗi đầu tiên nè</div>
+    </div>
+
+    <div class="part" id="part5Image">
+        <div class="image-frame">
+            <img class="part-image" id="image2" src="" alt="Kỷ niệm 2">
+        </div>
+    </div>
+
+    <div class="part" id="part6">
+        <div class="text-display">ngày đầu ngồi chung</div>
+    </div>
+
+    <div class="part" id="part6Image">
+        <div class="image-frame">
+            <img class="part-image" id="image3" src="" alt="Kỷ niệm 3">
+        </div>
+    </div>
+
+    <div class="part" id="partTongue">
+        <div class="tongue-icon" id="tongueIcon">😝</div>
+    </div>
+
+    <div class="part" id="part7">
+        <div class="gallery" id="gallery">
+            <img class="gallery-img" id="galleryImg1" src="" alt="Ảnh 1">
+            <img class="gallery-img" id="galleryImg2" src="" alt="Ảnh 2">
+            <img class="gallery-img" id="galleryImg3" src="" alt="Ảnh 3">
+        </div>
+    </div>
+
+    <div class="part" id="part8">
+        <div class="big-heart">❤️</div>
+    </div>
+
+    <div class="part" id="part9">
+        <div class="letter-container">
+            <div class="envelope" id="envelope">
+                <div class="envelope-front">
+                    <div style="font-size: 4rem;">💌</div>
+                    <div style="margin-top: 15px; color: #b83b5e; font-weight: bold; font-size: 1.2rem;">✨ Nhấn để mở thư ✨</div>
+                </div>
+                <div class="letter-content">
+                    <div class="letter-text">
+                        Tuy đôi lúc tui coá vô tình làm bạn giận, bực tức vì tui, nhưng thật tâm tui rất iu bạn, mong bạn sẽ bỏ qua những sai sót của tui, hãy cứ nói ra những điều tui làm bạn bực tức, hoặc đánh tui để tui coá thể bít mình sai ở đâu, học cách iu bạn thêm từng ngày
+                    </div>
+                    <div class="letter-signature">💌 Đức Anhhh người gửi</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== 🔴 ĐƯỜNG DẪN ẢNH - BẠN TỰ SỬA TÊN FILE Ở ĐÂY ==========
+        const image1Path = 'anh1.png';      // Ảnh ngày đầu nhắn tin (.png)
+        const image2Path = 'anh2.jpg';      // Ảnh chuỗi đầu tiên (.png)
+        const image3Path = 'anh3.jpg';      // Ảnh ngày đầu ngồi chung (.jpg)
+        const galleryImage1 = 'anh4.jpg';   // Ảnh thứ 1 (phần 3 ảnh) (.jpg)
+        const galleryImage2 = 'anh5.jpg';   // Ảnh thứ 2 (phần 3 ảnh) (.jpg)
+        const galleryImage3 = 'anh6.jpg';   // Ảnh thứ 3 (phần 3 ảnh) (.jpg)
+        // =================================================================
+
+        const part1 = document.getElementById('part1');
+        const part2Bg = document.getElementById('part2Bg');
+        const passwordInput = document.getElementById('passwordInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const errorArea = document.getElementById('errorArea');
+        const envelope = document.getElementById('envelope');
+        const tongueIcon = document.getElementById('tongueIcon');
+
+        let currentPart = 3;
+        let heartInterval, flowerInterval;
+
+        function createFallingHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('falling-heart');
+            heart.innerHTML = ['❤️', '💖', '💗', '💓', '💕', '💝'][Math.floor(Math.random() * 6)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = 3 + Math.random() * 5 + 's';
+            heart.style.fontSize = 1 + Math.random() * 2 + 'rem';
+            heart.style.opacity = 0.6 + Math.random() * 0.4;
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 8000);
+        }
+
+        function createFallingFlower() {
+            const flower = document.createElement('div');
+            flower.classList.add('falling-flower');
+            const flowers = ['🌸', '🌼', '🌻', '🌸', '🌺', '🌸', '🌷', '🌸', '💐'];
+            flower.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
+            flower.style.left = Math.random() * 100 + '%';
+            flower.style.animationDuration = 5 + Math.random() * 6 + 's';
+            flower.style.fontSize = 1 + Math.random() * 1.8 + 'rem';
+            flower.style.opacity = 0.7;
+            document.body.appendChild(flower);
+            setTimeout(() => { flower.remove(); }, 10000);
+        }
+
+        function startEffects() {
+            if (heartInterval) clearInterval(heartInterval);
+            if (flowerInterval) clearInterval(flowerInterval);
+            heartInterval = setInterval(createFallingHeart, 500);
+            flowerInterval = setInterval(createFallingFlower, 700);
+        }
+
+        function stopEffects() {
+            if (heartInterval) clearInterval(heartInterval);
+            if (flowerInterval) clearInterval(flowerInterval);
+        }
+
+        function hideAllParts() {
+            const parts = document.querySelectorAll('.part');
+            parts.forEach(part => part.classList.remove('active'));
+        }
+
+        function showPart(partId) {
+            hideAllParts();
+            const part = document.getElementById(partId);
+            if (part) part.classList.add('active');
+        }
+
+        function nextPart() {
+            currentPart++;
+            switch(currentPart) {
+                case 3:
+                    showPart('part3');
+                    setTimeout(() => { nextPart(); }, 3000);
+                    break;
+                case 4:
+                    showPart('part4');
+                    setTimeout(() => { nextPart(); }, 3000);
+                    break;
+                case 5:
+                    showPart('part4Image');
+                    setTimeout(() => { nextPart(); }, 4000);
+                    break;
+                case 6:
+                    showPart('part5');
+                    setTimeout(() => { nextPart(); }, 3000);
+                    break;
+                case 7:
+                    showPart('part5Image');
+                    setTimeout(() => { nextPart(); }, 4000);
+                    break;
+                case 8:
+                    showPart('part6');
+                    setTimeout(() => { nextPart(); }, 3000);
+                    break;
+                case 9:
+                    showPart('part6Image');
+                    setTimeout(() => { nextPart(); }, 4000);
+                    break;
+                case 10:
+                    showPart('partTongue');
+                    setTimeout(() => { nextPart(); }, 2500);
+                    break;
+                case 11:
+                    showPart('part7');
+                    showGalleryImages();
+                    break;
+                case 12:
+                    showPart('part8');
+                    setTimeout(() => { nextPart(); }, 2000);
+                    break;
+                case 13:
+                    showPart('part9');
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        function showGalleryImages() {
+            const img1 = document.getElementById('galleryImg1');
+            const img2 = document.getElementById('galleryImg2');
+            const img3 = document.getElementById('galleryImg3');
+            
+            img1.src = galleryImage1;
+            img2.src = galleryImage2;
+            img3.src = galleryImage3;
+            
+            img1.classList.add('show');
+            
+            setTimeout(() => {
+                img1.classList.remove('show');
+                img1.classList.add('hide');
+                img2.classList.add('show');
+            }, 3000);
+            
+            setTimeout(() => {
+                img2.classList.remove('show');
+                img2.classList.add('hide');
+                img3.classList.add('show');
+            }, 6000);
+            
+            setTimeout(() => {
+                nextPart();
+            }, 9500);
+        }
+
+        function showError() {
+            errorArea.innerHTML = `
+                <div class="error-icon">😠😡🤬</div>
+                <div class="error-message">⚠️ Mật khẩu sai! Nhập lại đi bé ơi ⚠️</div>
+            `;
+            passwordInput.value = '';
+            passwordInput.focus();
+            setTimeout(() => {
+                if (errorArea.innerHTML) {
+                    errorArea.innerHTML = '';
+                }
+            }, 2000);
+        }
+
+        function startMainContent() {
+            document.getElementById('image1').src = image1Path;
+            document.getElementById('image2').src = image2Path;
+            document.getElementById('image3').src = image3Path;
+            
+            part2Bg.classList.add('show');
+            startEffects();
+            
+            setTimeout(() => {
+                nextPart();
+            }, 1000);
+        }
+
+        submitBtn.addEventListener('click', function() {
+            const password = passwordInput.value;
+            if (password === '0904') {
+                part1.classList.add('hide');
+                startMainContent();
+            } else {
+                showError();
+            }
+        });
+
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const password = passwordInput.value;
+                if (password === '0904') {
+                    part1.classList.add('hide');
+                    startMainContent();
+                } else {
+                    showError();
+                }
+            }
+        });
+
+        envelope.addEventListener('click', function() {
+            this.classList.add('open');
+        });
+
+        tongueIcon.addEventListener('click', function() {
+            this.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 300);
+        });
+    </script>
+</body>
+</html>
