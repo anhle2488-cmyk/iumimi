@@ -171,6 +171,25 @@
             display: flex;
         }
 
+        /* Dòng chúc mừng */
+        .congrats {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #fff3ed;
+            text-shadow: 4px 4px 0 #d6336c;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 30px 50px;
+            border-radius: 80px;
+            animation: congratsPop 0.8s ease forwards;
+        }
+
+        @keyframes congratsPop {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
         .text-display {
             font-size: 2.8rem;
             font-weight: bold;
@@ -265,89 +284,90 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
+        /* Bức thư 3D xoay */
         .letter-container {
-            perspective: 1500px;
             width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
+            perspective: 1000px;
         }
 
-        .envelope {
-            position: relative;
-            width: 550px;
+        .flip-card {
+            width: 500px;
             height: 400px;
-            background: #f5e6d3;
-            border-radius: 20px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
             cursor: pointer;
-            transition: all 0.3s;
         }
 
-        .envelope-front {
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.open .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-front, .flip-back {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #f8eedb, #f0e0c8);
+            backface-visibility: hidden;
             border-radius: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 10;
-            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-        }
-
-        .envelope.open .envelope-front {
-            transform: rotateX(180deg);
-            opacity: 0;
-        }
-
-        .letter-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #fffef7;
-            border-radius: 18px;
-            padding: 35px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            transform: scale(0.9);
-            transition: all 0.5s ease 0.3s;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .envelope.open .letter-content {
-            opacity: 1;
-            transform: scale(1);
             box-shadow: 0 30px 50px rgba(0, 0, 0, 0.4);
         }
 
-        .letter-text {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: #1a1a1a;
-            margin-bottom: 20px;
-            font-weight: 500;
+        .flip-front {
+            background: linear-gradient(135deg, #f8eedb, #f0e0c8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
-        .letter-signature {
+        .flip-front .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .flip-front .text {
             font-size: 1.2rem;
             font-weight: bold;
-            color: #d6336c;
-            text-align: right;
-            margin-top: 15px;
+            color: #b83b5e;
         }
 
-        .envelope:not(.open):hover {
+        .flip-back {
+            background: linear-gradient(135deg, #ff6b6b, #d6336c);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flip-back .letter-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: white;
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .flip-back .letter-signature {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffe0b5;
+            text-align: right;
+            padding: 0 20px;
+        }
+
+        .flip-card:not(.open):hover {
             transform: translateY(-5px);
-            box-shadow: 0 40px 60px rgba(0, 0, 0, 0.5);
         }
 
         .falling-heart {
@@ -378,9 +398,9 @@
 
         @media (max-width: 768px) {
             .text-display { font-size: 1.6rem; padding: 15px 25px; }
-            .envelope { width: 350px; height: 280px; }
-            .letter-text { font-size: 0.85rem; line-height: 1.5; }
-            .letter-content { padding: 20px; }
+            .flip-card { width: 350px; height: 280px; }
+            .congrats { font-size: 1.8rem; padding: 20px 30px; }
+            .flip-back .letter-text { font-size: 0.85rem; }
             .big-heart { font-size: 8rem; }
             .tongue-icon { font-size: 6rem; }
         }
@@ -401,6 +421,11 @@
     </div>
 
     <div class="part2-bg" id="part2Bg"></div>
+
+    <!-- Dòng chúc mừng sau khi nhập pass đúng -->
+    <div class="part" id="partCongrats">
+        <div class="congrats">🎉 Chúc mừng bé iu 🎉</div>
+    </div>
 
     <!-- CÁC PHẦN TIẾP THEO -->
     <div class="part" id="part3">
@@ -453,18 +478,21 @@
         <div class="big-heart">❤️</div>
     </div>
 
+    <!-- Bức thư 3D xoay -->
     <div class="part" id="part9">
         <div class="letter-container">
-            <div class="envelope" id="envelope">
-                <div class="envelope-front">
-                    <div style="font-size: 4rem;">💌</div>
-                    <div style="margin-top: 15px; color: #b83b5e; font-weight: bold; font-size: 1.2rem;">✨ Nhấn để mở thư ✨</div>
-                </div>
-                <div class="letter-content">
-                    <div class="letter-text">
-                        Tuy đôi lúc tui coá vô tình làm bạn giận, bực tức vì tui, nhưng thật tâm tui rất iu bạn, mong bạn sẽ bỏ qua những sai sót của tui, hãy cứ nói ra những điều tui làm bạn bực tức, hoặc đánh tui để tui coá thể bít mình sai ở đâu, học cách iu bạn thêm từng ngày
+            <div class="flip-card" id="flipCard">
+                <div class="flip-card-inner">
+                    <div class="flip-front">
+                        <div class="icon">💌</div>
+                        <div class="text">✨ Nhấn để mở thư ✨</div>
                     </div>
-                    <div class="letter-signature">💌 Đức Anhhh người gửi</div>
+                    <div class="flip-back">
+                        <div class="letter-text">
+                            Tuy đôi lúc tui coá vô tình làm bạn giận, bực tức vì tui, nhưng thật tâm tui rất iu bạn, mong bạn sẽ bỏ qua những sai sót của tui, hãy cứ nói ra những điều tui làm bạn bực tức, hoặc đánh tui để tui coá thể bít mình sai ở đâu, học cách iu bạn thêm từng ngày
+                        </div>
+                        <div class="letter-signature">💌 Đức Anhhh người gửi</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -472,8 +500,8 @@
 
     <script>
         // ========== 🔴 ĐƯỜNG DẪN ẢNH - BẠN TỰ SỬA TÊN FILE Ở ĐÂY ==========
-        const image1Path = 'anh1.jpg';      // Ảnh ngày đầu nhắn tin (.png)
-        const image2Path = 'anh2.jpg';      // Ảnh chuỗi đầu tiên (.png)
+        const image1Path = 'anh1.png';      // Ảnh ngày đầu nhắn tin (.png)
+        const image2Path = 'anh2.png';      // Ảnh chuỗi đầu tiên (.png)
         const image3Path = 'anh3.jpg';      // Ảnh ngày đầu ngồi chung (.jpg)
         const galleryImage1 = 'anh4.jpg';   // Ảnh thứ 1 (phần 3 ảnh) (.jpg)
         const galleryImage2 = 'anh5.jpg';   // Ảnh thứ 2 (phần 3 ảnh) (.jpg)
@@ -485,10 +513,10 @@
         const passwordInput = document.getElementById('passwordInput');
         const submitBtn = document.getElementById('submitBtn');
         const errorArea = document.getElementById('errorArea');
-        const envelope = document.getElementById('envelope');
+        const flipCard = document.getElementById('flipCard');
         const tongueIcon = document.getElementById('tongueIcon');
 
-        let currentPart = 3;
+        let currentPart = 0;
         let heartInterval, flowerInterval;
 
         function createFallingHeart() {
@@ -523,11 +551,6 @@
             flowerInterval = setInterval(createFallingFlower, 700);
         }
 
-        function stopEffects() {
-            if (heartInterval) clearInterval(heartInterval);
-            if (flowerInterval) clearInterval(flowerInterval);
-        }
-
         function hideAllParts() {
             const parts = document.querySelectorAll('.part');
             parts.forEach(part => part.classList.remove('active'));
@@ -542,47 +565,47 @@
         function nextPart() {
             currentPart++;
             switch(currentPart) {
-                case 3:
+                case 1:
                     showPart('part3');
                     setTimeout(() => { nextPart(); }, 3000);
                     break;
-                case 4:
+                case 2:
                     showPart('part4');
                     setTimeout(() => { nextPart(); }, 3000);
                     break;
-                case 5:
+                case 3:
                     showPart('part4Image');
                     setTimeout(() => { nextPart(); }, 4000);
                     break;
-                case 6:
+                case 4:
                     showPart('part5');
                     setTimeout(() => { nextPart(); }, 3000);
                     break;
-                case 7:
+                case 5:
                     showPart('part5Image');
                     setTimeout(() => { nextPart(); }, 4000);
                     break;
-                case 8:
+                case 6:
                     showPart('part6');
                     setTimeout(() => { nextPart(); }, 3000);
                     break;
-                case 9:
+                case 7:
                     showPart('part6Image');
                     setTimeout(() => { nextPart(); }, 4000);
                     break;
-                case 10:
+                case 8:
                     showPart('partTongue');
                     setTimeout(() => { nextPart(); }, 2500);
                     break;
-                case 11:
+                case 9:
                     showPart('part7');
                     showGalleryImages();
                     break;
-                case 12:
+                case 10:
                     showPart('part8');
                     setTimeout(() => { nextPart(); }, 2000);
                     break;
-                case 13:
+                case 11:
                     showPart('part9');
                     break;
                 default:
@@ -640,9 +663,11 @@
             part2Bg.classList.add('show');
             startEffects();
             
+            showPart('partCongrats');
+            
             setTimeout(() => {
                 nextPart();
-            }, 1000);
+            }, 2500);
         }
 
         submitBtn.addEventListener('click', function() {
@@ -667,7 +692,7 @@
             }
         });
 
-        envelope.addEventListener('click', function() {
+        flipCard.addEventListener('click', function() {
             this.classList.add('open');
         });
 
